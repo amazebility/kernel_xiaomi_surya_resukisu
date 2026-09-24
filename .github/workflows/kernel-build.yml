@@ -16,8 +16,7 @@ jobs:
       - name: Checkout Kernel Source
         uses: actions/checkout@v4
         with:
-          submodules: true # This fetches the KernelSU submodule automatically
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: Install Build Dependencies
         run: |
@@ -40,19 +39,8 @@ jobs:
         run: |
           set -euo pipefail
           echo "Downloading KernelSU setup script from ReSukiSU..."
-          curl -LSs https://raw.githubusercontent.com/ReSukiSU/ReSukiSU/main/kernel/setup.sh > setup_kernelsu.sh
-          chmod +x setup_kernelsu.sh
-          echo "Setting up KernelSU in drivers/kernelsu..."
-          bash setup_kernelsu.sh
+          curl -LSs "https://raw.githubusercontent.com/ReSukiSU/ReSukiSU/main/kernel/setup.sh" | bash
           echo "KernelSU integration completed"
-          if [ -d "drivers/kernelsu" ]; then
-            echo "drivers/kernelsu directory verified"
-            ls -la drivers/kernelsu/ | head -10
-          else
-            echo "ERROR: drivers/kernelsu not found!"
-            exit 1
-          fi
-          rm -f setup_kernelsu.sh
 
       - name: Clone NonGKI_Kernel_Build_2nd for SUSFS patches
         run: |
