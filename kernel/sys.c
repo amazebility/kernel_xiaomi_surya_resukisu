@@ -590,6 +590,9 @@ error:
 	return retval;
 }
 
+#ifdef CONFIG_KSU_MANUAL_HOOK
+extern int ksu_handle_setresuid(uid_t ruid, uid_t euid, uid_t suid);
+#endif
 
 /*
  * This function implements a generic ability to update ruid, euid,
