@@ -180,37 +180,8 @@ jobs:
             echo "✅ Added KernelSU Kconfig source"
           fi
 
-      - name: Kill the stat.c chimera (Apply SUSFS v2.3.0 base patch + inline hooks)
-        run: |
-          set -euo pipefail
-          KERNEL_VERSION=$(head -n 3 Makefile | grep -E 'VERSION|PATCHLEVEL' | awk '{print $3}' | paste -sd '.')
-          FIRST_VERSION=$(echo "$KERNEL_VERSION" | awk -F '.' '{print $1}')
-          SECOND_VERSION=$(echo "$KERNEL_VERSION" | awk -F '.' '{print $2}')
-          echo "📋 Detected kernel version: $KERNEL_VERSION"
-          SUSFS_PATCH="SUSFS_Patches/Patch/susfs_patch_to_${FIRST_VERSION}.${SECOND_VERSION}.patch"
-          if [ ! -f "$SUSFS_PATCH" ]; then
-            echo "⚠️ No SUSFS patch available for kernel ${FIRST_VERSION}.${SECOND_VERSION}, skipping base patch"
-            exit 0
-          fi
-          echo "📦 Using SUSFS patch: $(basename "$SUSFS_PATCH")"
-          echo "🔨 Applying SUSFS base patch..."
-          if patch -p1 --forward < "$SUSFS_PATCH"; then
-            echo "✅ SUSFS base patch applied successfully"
-          else
-            echo "::warning::SUSFS base patch had conflicts. Listing rejects:"
-            find . -name "*.rej" -type f || true
-          fi
-          if [ -f "SUSFS_Patches/susfs_inline_hook_patches.sh" ]; then
-            echo "🔨 Applying SUSFS inline hooks..."
-            chmod +x SUSFS_Patches/susfs_inline_hook_patches.sh
-            bash SUSFS_Patches/susfs_inline_hook_patches.sh || echo "::warning::SUSFS inline hooks reported issues"
-            echo "✅ SUSFS inline hooks step finished"
-          fi
-          find . -name "*.rej" -delete 2>/dev/null || true
-          find . -name "*.orig" -delete 2>/dev/null || true
-          echo "=========================================="
-          echo "  SUSFS Integration Complete"
-          echo "=========================================="
+        echo "  SUSFS Integration Complete"
+          echo 
 
       - name: Apply SUSFS 2.1 + ZeroMount patches (Amazeble)
         run: |
