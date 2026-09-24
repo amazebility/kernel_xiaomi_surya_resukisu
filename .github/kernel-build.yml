@@ -368,9 +368,8 @@ jobs:
           echo "=== Enabling KernelSU (ReSukiSU) with Manual Hooks ==="
           ./scripts/config --file out/.config --enable CONFIG_KSU
           ./scripts/config --file out/.config --enable CONFIG_KSU_MANUAL_HOOK
-          ./scripts/config --file out/.config --disable CONFIG_KSU_KPROBES_HOOK
+
           
-          echo "=== Enabling SusFS v2.3.0 Features ==="
           ./scripts/config --file out/.config --enable CONFIG_KSU_SUSFS
           ./scripts/config --file out/.config --enable CONFIG_KSU_SUSFS_SUS_MOUNT
           ./scripts/config --file out/.config --enable CONFIG_KSU_SUSFS_SUS_KSTAT
@@ -379,13 +378,12 @@ jobs:
           ./scripts/config --file out/.config --enable CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS
           ./scripts/config --file out/.config --enable CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG
           
-          echo "=== Disabling Incompatible/Optional SusFS Features ==="
           ./scripts/config --file out/.config --disable CONFIG_KSU_SUSFS_SUS_PATH
           ./scripts/config --file out/.config --disable CONFIG_KSU_SUSFS_OPEN_REDIRECT
           ./scripts/config --file out/.config --disable CONFIG_KSU_SUSFS_SUS_MAP
           
-          echo "=== Disabling ZeroMount (stub only, no driver) ==="
-          ./scripts/config --file out/.config --disable CONFIG_ZEROMOUNT
+
+
           
           echo "=== Enabling Other Features ==="
           ./scripts/config --file out/.config --enable CONFIG_MODULES
